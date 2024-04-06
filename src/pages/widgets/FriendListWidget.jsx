@@ -46,6 +46,7 @@ const FriendListWidget = ({ userId }) => {
               name={`${friend.firstName} ${friend.lastName}`}
               subtitle={friend.occupation}
               userPicturePath={friend.picturePath}
+              isFriendList={true}
             />
           ))
         ) : <p>No friends found</p>}

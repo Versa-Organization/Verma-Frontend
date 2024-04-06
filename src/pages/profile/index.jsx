@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery, Typography, TextField, useTheme, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,9 @@ const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
+  const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const [isPasswordChange, setIsPasswordChange] = useState(false);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:6001/users/${userId}`, {
@@ -31,7 +33,7 @@ const ProfilePage = () => {
 
   return (
     <Box>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} isChangePassword={true} onClickChangePassword={() => setIsPasswordChange(true)} />
       <Box
         width="100%"
         padding="2rem 6%"
@@ -51,6 +53,20 @@ const ProfilePage = () => {
           <MyPostWidget picturePath={user.picturePath} />
           <Box m="2rem 0" />
           <PostsWidget userId={userId} isProfile />
+        </Box>
+        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+          {isPasswordChange && <Box style={{ background: '#ffff', display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', borderRadius: '8px' }}>
+            <Typography
+              color={palette.neutral.dark}
+              variant="h5"
+              fontWeight="500"
+            >
+              Password Change
+            </Typography>
+            <TextField fullWidth id="password" label="Password" variant="outlined" />
+            <TextField fullWidth id="cpassword" label="Confirm Password" variant="outlined" />
+            <Button variant="contained" style={{ background: 'red', color: '#ffff' }} onClick={() => setIsPasswordChange(false)}>Change</Button>
+          </Box>}
         </Box>
       </Box>
     </Box>

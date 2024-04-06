@@ -1,13 +1,10 @@
-import { Avatar, Card, useTheme } from "@mui/material";
-import React from "react";
-import UserAvatar from "./UserAvatar";
-import HorizontalStack from "../../utils/HorizontalStack";
+import React from 'react';
+import HorizontalStack from '../../utils/HorizontalStack';
+import UserAvatar from './UserAvatar';
+import { Card, useTheme } from '@mui/material';
 
-const Message = (props) => {
-  const username = props.conservant.username;
-  const message = props.message;
+const MessageContent = ({ message, userDetails }) => {
   const theme = useTheme();
-
   let styles = {};
   if (message.direction === "to") {
     styles = {
@@ -19,7 +16,6 @@ const Message = (props) => {
       justifyContent: "flex-end",
     };
   }
-
   return (
     <HorizontalStack
       sx={{ paddingY: 1, width: "100%" }}
@@ -28,7 +24,7 @@ const Message = (props) => {
       alignItems="flex-end"
     >
       {message.direction === "to" && (
-        <UserAvatar username={username} height={30} width={30} />
+        <UserAvatar username={`${userDetails.firstName} ${userDetails.lastName}`} height={30} width={30} />
       )}
 
       <Card
@@ -44,7 +40,7 @@ const Message = (props) => {
         {message.content}
       </Card>
     </HorizontalStack>
-  );
-};
+  )
+}
 
-export default Message;
+export default MessageContent;

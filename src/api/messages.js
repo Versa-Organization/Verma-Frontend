@@ -1,11 +1,37 @@
 
-
-const getConversations = async (user) => {
+const getConversations = async (token) => {
   try {
-    const res = await fetch("http://localhost:6001/messages", {
+    const response = await fetch(`http://localhost:6001/messages`, {
+      method: "POST",
       headers: {
-        "x-access-token": user,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
+    });
+
+    // Check if response is successful
+    if (!response.ok) {
+      throw new Error('Failed to fetch conversations');
+    }
+
+    // Parse response body as JSON
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error('Error fetching conversations:', error);
+    // Ensure to handle error cases properly, depending on your application's logic
+    // For now, let's return null or any default value to indicate failure
+    return null;
+  }
+};
+
+
+const getMessages = async (token, conversationId) => {
+  try {
+    const res = await fetch(`http://localhost:6001/messages/getMessage/${conversationId}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     });
     return await res.json();
   } catch (err) {
@@ -13,34 +39,25 @@ const getConversations = async (user) => {
   }
 };
 
-const getMessages = async (user, conversationId) => {
+const sendMessage = async (token, message, recipientId, userId) => {
   try {
-    const res = await fetch("http://localhost:6001/messages/getMessage/" + conversationId, {
-      headers: {
-        "x-access-token": user,
-      },
-    });
-    return await res.json();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const sendMessage = async (user, message, recipientId) => {
-  try {
-    const res = await fetch("http://localhost:6001/messages/sendMessage/" + recipientId, {
+    const res = await fetch(`http://localhost:6001/messages/sendMessage/${recipientId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "x-access-token": user,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(message),
+      body: JSON.stringify({
+        content: message.content,
+        userId: userId,
+      }),
     });
     return await res.json();
   } catch (err) {
     console.log(err);
   }
 };
+
 
 export { getConversations, getMessages, sendMessage };

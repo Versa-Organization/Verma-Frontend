@@ -27,11 +27,10 @@ import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../components/FlexBetween";
 import logo1 from "../../assets/logo1.png";
 
-const Navbar = ({ userId }) => {
+const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const user = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -56,8 +55,6 @@ const Navbar = ({ userId }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
-
-  console.log("user", user)
 
   const fullName = user ? `${user?.firstName} ${user?.lastName}` : `Me`;
 
@@ -121,6 +118,9 @@ const Navbar = ({ userId }) => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
+              {isChangePassword && <MenuItem value={'Setting'} onClick={onClickChangePassword}>
+                <Typography>{`Change Password`}</Typography>
+              </MenuItem>}
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>
@@ -193,6 +193,9 @@ const Navbar = ({ userId }) => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
+                {isChangePassword && <MenuItem value={'Setting'} onClick={onClickChangePassword}>
+                  <Typography>{`Change Password`}</Typography>
+                </MenuItem>}
                 <MenuItem onClick={() => dispatch(setLogout())}>
                   Log Out
                 </MenuItem>
