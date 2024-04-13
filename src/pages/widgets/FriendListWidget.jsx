@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "../../state/index";
 
-const FriendListWidget = ({ userId }) => {
+const FriendListWidget = ({ userId, isMessageDisplayed, addFriendLoading }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const token = useSelector((state) => state.token);
@@ -25,7 +25,7 @@ const FriendListWidget = ({ userId }) => {
 
   useEffect(() => {
     getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [addFriendLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <WidgetWrapper>
@@ -47,6 +47,7 @@ const FriendListWidget = ({ userId }) => {
               subtitle={friend.occupation}
               userPicturePath={friend.picturePath}
               isFriendList={true}
+              isMessageDisplayed={isMessageDisplayed}
             />
           ))
         ) : <p>No friends found</p>}

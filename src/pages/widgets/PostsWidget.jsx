@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../state/index";
 import PostWidget from "./PostWidget";
 
-const PostsWidget = ({ userId, isProfile = false }) => {
+const PostsWidget = ({ userId, isProfile = false, isEffect }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
@@ -36,12 +36,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isEffect]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       {Array.isArray(posts) && posts.length > 0 ? (
-        posts.map(
+        posts.slice().reverse().map(
           ({
             _id,
             userId,
@@ -65,6 +65,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
               userPicturePath={userPicturePath}
               likes={likes}
               comments={comments}
+              isEffect={isEffect}
             />
           )
         )

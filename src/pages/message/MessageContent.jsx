@@ -29,8 +29,7 @@ const MessageContent = ({ message, userDetails }) => {
 
       <Card
         sx={{
-          borderRadius: "25px",
-          backgroundColor: styles.messageColor,
+          borderRadius: "15px",
           borderWidth: "1px",
           paddingY: "12px",
           maxWidth: "70%",

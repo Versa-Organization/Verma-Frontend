@@ -26,8 +26,10 @@ import { setMode, setLogout } from "../../state/index";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../components/FlexBetween";
 import logo1 from "../../assets/logo1.png";
+import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import FitbitIcon from '@mui/icons-material/Fitbit';
 
-const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
+const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +42,7 @@ const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
   const alt = theme.palette.background.alt;
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
+  const userId = useSelector((state) => state.user._id);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:6001/users/${userId}`, {
@@ -61,12 +64,22 @@ const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
-        <Box display="flex" justifyContent="center" alignItems="center" gap="5px">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap="5px"
+        >
           <Avatar
             alt="Brand"
             src={logo1}
             onClick={() => navigate("/home")}
-            sx={{ padding: "3px", width: "50px", height: "50px", cursor: 'pointer' }}
+            sx={{
+              padding: "3px",
+              width: "50px",
+              height: "50px",
+              cursor: "pointer",
+            }}
           />
         </Box>
         {isNonMobileScreens && (
@@ -94,7 +107,30 @@ const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <Message onClick={() => navigate("/message")} sx={{ fontSize: "25px", cursor: 'pointer' }} />
+          <PeopleAltRoundedIcon
+            onClick={() => navigate("/userlist")}
+            sx={{
+              fontSize: "25px",
+              cursor: "pointer",
+              color: theme.palette.mode === "dark" ? "#ffff" : "#33658a",
+            }}
+          />
+          <FitbitIcon
+            onClick={() => navigate("/userlist")}
+            sx={{
+              fontSize: "25px",
+              cursor: "pointer",
+              color: theme.palette.mode === "dark" ? "#ffff" : "#33658a",
+            }}
+          />
+          <Message
+            onClick={() => navigate("/message")}
+            sx={{
+              fontSize: "25px",
+              cursor: "pointer",
+              color: theme.palette.mode === "dark" ? "#ffff" : "#33658a",
+            }}
+          />
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
           {/* <Help sx={{ fontSize: "25px" }} /> */}
           <FormControl variant="standard" value={fullName}>
@@ -118,9 +154,6 @@ const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              {isChangePassword && <MenuItem value={'Setting'} onClick={onClickChangePassword}>
-                <Typography>{`Change Password`}</Typography>
-              </MenuItem>}
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>
@@ -193,9 +226,6 @@ const Navbar = ({ userId, isChangePassword, onClickChangePassword }) => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                {isChangePassword && <MenuItem value={'Setting'} onClick={onClickChangePassword}>
-                  <Typography>{`Change Password`}</Typography>
-                </MenuItem>}
                 <MenuItem onClick={() => dispatch(setLogout())}>
                   Log Out
                 </MenuItem>

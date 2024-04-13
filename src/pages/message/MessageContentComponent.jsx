@@ -104,13 +104,17 @@ const MessageContentComponent = ({ mobile, conversations, conversation, conserva
     });
 
     const setDirection = (messages) => {
-        messages.forEach((message) => {
-            if (message.sender._id === user._id) {
-                message.direction = "from";
-            } else {
-                message.direction = "to";
-            }
-        });
+        if (Array.isArray(messages)) {
+            messages.forEach((message) => {
+                if (message.sender._id === user._id) {
+                    message.direction = "from";
+                } else {
+                    message.direction = "to";
+                }
+            });
+        } else {
+            console.error("messages is not an array");
+        }
     };
 
     const fetchMessages = async () => {
@@ -183,13 +187,14 @@ const MessageContentComponent = ({ mobile, conversations, conversation, conserva
                             direction="column-reverse"
                         >
                             <div ref={messagesEndRef} />
-                            {messages?.map((message, i) => (
+                            {Array.isArray(messages) && messages.map((message, i) => (
                                 <MessageContent
                                     userDetails={conservant}
                                     message={message}
                                     key={i}
                                 />
                             ))}
+
                         </Stack>
                     </Box>
                 </Box>

@@ -40,6 +40,10 @@ const getMessages = async (token, conversationId) => {
 };
 
 const sendMessage = async (token, message, recipientId, userId) => {
+  console.log("token", token);
+  console.log("message", message);
+  console.log("recipientId", recipientId);
+  console.log("userId", userId);
   try {
     const res = await fetch(`http://localhost:6001/messages/sendMessage/${recipientId}`, {
       method: "POST",

@@ -1,10 +1,11 @@
 import { Box, Card, Grid } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../navbar';
 import MessageParticipant from './MessageParticipant';
 import MessageContentComponent from './MessageContentComponent';
 import { useSelector } from 'react-redux';
-import { getConversations, getMessages } from '../../api/messages';
+import { getConversations } from '../../api/messages';
+import { useLocation } from "react-router-dom";
 
 const MessageComponent = () => {
   const token = useSelector((state) => state.token);
@@ -23,17 +24,36 @@ const MessageComponent = () => {
   }, []);
 
   //=======================================================================================//
-  const [conversations, setConversations] = useState([]);
-  const [conversation, setConversation] = useState()
+  const [conversations, setConversations] = useState([
+    {
+      firstName: "Mansi",
+      lastName: "Verma",
+      location: "Hydrabad",
+      occupation: "Student",
+      picturePath: "Screenshot 2024-04-08 160330.png",
+      _id: "661391c98a5de4db8693a922",
+    }
+  ]);
+  const [conversation, setConversation] = useState({})
   const [conservant, setConservant] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [conversationId, setConversationId] = useState(null)
+  const [conversationId, setConversationId] = useState(null);
+  const { state } = useLocation();
+  const newConservant = state && state.user;
+  const recipientDetails = {
+    recipientDetails: newConservant
+  }
 
   const fetchConversation = async () => {
     const response = await getConversations(token);
     if (response) {
-      setConversations(response);
-      setLoading(false);
+      if (newConservant) {
+        setConversations([...response, recipientDetails]);
+        setLoading(false);
+      } else {
+        setConversations(response);
+        setLoading(false);
+      }
     }
   }
   useEffect(() => {
@@ -54,7 +74,7 @@ const MessageComponent = () => {
 
   return (
     <Box>
-      <Navbar userId={userId._id} />
+      <Navbar />
       <Box style={{ marginTop: 15 }}>
         <Card sx={{ padding: 0 }}>
           <Grid

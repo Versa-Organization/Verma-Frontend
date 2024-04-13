@@ -24,11 +24,14 @@ import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { setPosts } from "../../state";
+import { useSnackbar } from "notistack";
 
 const MyPostWidget = ({ picturePath }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
+  const [fileSelect, setFileSelect] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -47,7 +50,6 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-
     const response = await fetch(`http://localhost:6001/posts`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
@@ -57,7 +59,9 @@ const MyPostWidget = ({ picturePath }) => {
     const posts = await response.json();
     dispatch(setPosts({ posts }));
     setImage(null);
+    setIsImage(false);
     setPost("");
+    enqueueSnackbar("posted successfully", { variant: "success" });
   };
 
   return (
@@ -84,7 +88,28 @@ const MyPostWidget = ({ picturePath }) => {
           p="1rem"
         >
           <Dropzone
-            acceptedFiles=".jpg,.jpeg,.png"
+            acceptedFiles={
+              fileSelect === "Image"
+                ? [".jpg", ".jpeg", ".png", ".gif"]
+                : fileSelect === "Video"
+                  ? [".mp4", ".avi", ".mov", ".mkv"]
+                  : fileSelect === "Attachment"
+                    ? [".pdf", ".doc", ".docx", ".txt"]
+                    : fileSelect === "Audio"
+                      ? [".mp3", ".wav", ".ogg", ".flac"]
+                      : []
+            }
+            accept={
+              fileSelect === "Image"
+                ? "image/jpeg, image/png, image/gif"
+                : fileSelect === "Video"
+                  ? "video/*"
+                  : fileSelect === "Attachment"
+                    ? ".pdf,.doc,.docx,.txt"
+                    : fileSelect === "Audio"
+                      ? "audio/*"
+                      : ""
+            }
             multiple={false}
             onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
           >
@@ -95,11 +120,16 @@ const MyPostWidget = ({ picturePath }) => {
                   border={`2px dashed ${palette.primary.main}`}
                   p="1rem"
                   width="100%"
-                  sx={{ "&:hover": { cursor: "pointer" } }}
+                  sx={{ cursor: "pointer" }}
                 >
                   <input {...getInputProps()} />
                   {!image ? (
-                    <p>Add image Here</p>
+                    <>
+                      {fileSelect === "Image" && <p>Add image Here</p>}
+                      {fileSelect === "Video" && <p>Add video Here</p>}
+                      {fileSelect === "Attachment" && <p>Add file Here</p>}
+                      {fileSelect === "Audio" && <p>Add audio Here</p>}
+                    </>
                   ) : (
                     <FlexBetween>
                       <Typography>{image.name}</Typography>
@@ -124,11 +154,17 @@ const MyPostWidget = ({ picturePath }) => {
       <Divider sx={{ margin: "1.25rem 0" }} />
 
       <FlexBetween>
-        <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
+        <FlexBetween
+          gap="0.25rem"
+          onClick={() => {
+            setFileSelect("Image");
+            setIsImage(!isImage);
+          }}
+        >
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
-            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+            sx={{ cursor: "pointer", color: medium }}
           >
             Image
           </Typography>
@@ -136,17 +172,38 @@ const MyPostWidget = ({ picturePath }) => {
 
         {isNonMobileScreens ? (
           <>
-            <FlexBetween gap="0.25rem">
+            <FlexBetween
+              gap="0.25rem"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setFileSelect("Video");
+                setIsImage(!isImage);
+              }}
+            >
               <GifBoxOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Clip</Typography>
             </FlexBetween>
 
-            <FlexBetween gap="0.25rem">
+            <FlexBetween
+              gap="0.25rem"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setFileSelect("Attachment");
+                setIsImage(!isImage);
+              }}
+            >
               <AttachFileOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Attachment</Typography>
             </FlexBetween>
 
-            <FlexBetween gap="0.25rem">
+            <FlexBetween
+              gap="0.25rem"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setFileSelect("Audio");
+                setIsImage(!isImage);
+              }}
+            >
               <MicOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Audio</Typography>
             </FlexBetween>
@@ -156,18 +213,20 @@ const MyPostWidget = ({ picturePath }) => {
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
         )}
-
-        <Button
+        <button
           disabled={!post}
-          onClick={handlePost}
-          sx={{
-            color: palette.background.alt,
-            backgroundColor: palette.primary.main,
-            borderRadius: "3rem",
+          style={{
+            background: "#00509d",
+            border: "none",
+            padding: "0.5rem",
+            borderRadius: "8px",
+            color: "#ffff",
+            width: "80px",
           }}
+          onClick={handlePost}
         >
-          POST
-        </Button>
+          Post
+        </button>
       </FlexBetween>
     </WidgetWrapper>
   );

@@ -26,8 +26,8 @@ const MessageParticipant = ({ conservant, conversations, setConservant, loading,
                     <Box sx={{ height: "calc(100vh - 171px)" }}>
                         <Box sx={{ height: "100%" }}>
                             <List sx={{ padding: 0, maxHeight: "100%", overflowY: "auto" }}>
-                                {conversations && conversations.map((response) => (
-                                    <UserList conversation={response} key={response.recipientDetails.recipientId} conservant={conservant} setConservant={setConservant} handleOnClick={(conversationId) => handleOnClick(conversationId)} />
+                                {conversations && conversations?.map((response) => (
+                                    <UserList conversation={response} key={response?.recipientDetails?.recipientId} conservant={conservant} setConservant={setConservant} handleOnClick={(conversationId) => handleOnClick(conversationId)} />
                                 ))}
                             </List>
                         </Box>

@@ -1,11 +1,11 @@
-import { Avatar, ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import React from 'react'
 import UserAvatar from './UserAvatar'
 import moment from 'moment';
 
 const UserList = ({ conversation, conservant, setConservant, handleOnClick }) => {
-    const recipient = conversation.recipientDetails;
-    const recipientUserName = `${recipient.firstName} ${recipient.lastName}`;
+    const recipient = conversation?.recipientDetails;
+    const recipientUserName = `${recipient?.firstName} ${recipient?.lastName}`;
     const conservantUserName = `${conservant?.firstName} ${conservant?.lastName}`;
     const selectedUser = conservantUserName === recipientUserName;
 
@@ -13,8 +13,8 @@ const UserList = ({ conversation, conservant, setConservant, handleOnClick }) =>
         <>
             <MenuItem
                 onClick={() => {
-                    setConservant(conversation.recipientDetails)
-                    handleOnClick(conversation.conversationId)
+                    setConservant(conversation?.recipientDetails)
+                    handleOnClick(conversation?.conversationId)
                 }}
                 sx={{ padding: 2 }}
                 divider
@@ -28,7 +28,7 @@ const UserList = ({ conversation, conservant, setConservant, handleOnClick }) =>
                     primary={recipientUserName}
                     secondary={<div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
                         <p>Message</p>
-                        <p>{`${moment(conversation.lastMessageAt).fromNow()}`}</p>
+                        <p>{`${moment(conversation?.lastMessageAt).fromNow()}`}</p>
                     </div>}
                 />
             </MenuItem>

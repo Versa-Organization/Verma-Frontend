@@ -14,7 +14,7 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import twitter from "../../assets/twitter.png";
 import linkedin from "../../assets/linkedin.png";
 
-const UserWidget = ({ userId, picturePath }) => {
+const UserWidget = ({ userId, picturePath, isEffect, setIsEffect }) => {
   const [user, setUser] = useState(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
   useEffect(() => {
     getUser();
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isEffect]); //eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) {
     return null;
@@ -67,7 +67,7 @@ const UserWidget = ({ userId, picturePath }) => {
               color={dark}
               fontWeight="500"
               sx={{
-                "&:hover": { cursor: "pointer" },
+                cursor: "pointer"
               }}
             >
               {firstName} {lastName}

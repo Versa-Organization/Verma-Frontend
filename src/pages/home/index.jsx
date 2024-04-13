@@ -6,6 +6,7 @@ import MyPostWidget from "./../widgets/MyPostWidget";
 import PostsWidget from "./../widgets/PostsWidget";
 import AdvertWidget from "../widgets/AdvertWidget";
 import FriendListWidget from "../widgets/FriendListWidget";
+import ChannelCardList from "../channel/ChannelCardList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -13,7 +14,7 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Navbar userId={_id} />
+      <Navbar />
       <Box
         width="100%"
         padding="2rem 6%"
@@ -23,6 +24,8 @@ const HomePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
+          <Box m="2rem 0" />
+          <FriendListWidget userId={_id} />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
@@ -34,8 +37,7 @@ const HomePage = () => {
         {isNonMobileScreens && (
           <Box flexBasis="26%">
             <AdvertWidget />
-            <Box m="2rem 0" />
-            <FriendListWidget userId={_id} />
+            <ChannelCardList />
           </Box>
         )}
       </Box>

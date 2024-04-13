@@ -14,6 +14,8 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { initiateSocketConnection } from "./utils/socketHelper";
 import MessageComponent from "./pages/message/MessageComponent";
+import UserList from "./pages/UserList/UserList";
+import ChannelDetailsIndex from "./pages/channel/channelDetails/ChannelDetailsIndex";
 
 const App = () => {
   const mode = useSelector((state) => state.mode);
@@ -38,6 +40,14 @@ const App = () => {
         <Route
           path="/message"
           element={isAuth ? <MessageComponent /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/userlist"
+          element={isAuth ? <UserList /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/channel-details/:id"
+          element={isAuth ? <ChannelDetailsIndex /> : <Navigate to="/" />}
         />
 
         <Route path="*" element={<NotFound />} />
