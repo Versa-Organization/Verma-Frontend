@@ -12,8 +12,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useNavigate } from "react-router-dom";
 
-const ChannelMenu = ({ channelDetails, userId, isAdmin, setMenu }) => {
+const ChannelMenu = ({ channelDetails, userId, isAdmin, setMenu, token, setIsRefresh }) => {
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [deleteOpen, setDeleteOpen] = React.useState(false);
     const open = Boolean(anchorEl);
@@ -26,7 +28,20 @@ const ChannelMenu = ({ channelDetails, userId, isAdmin, setMenu }) => {
     const handleDeleteOpen = () => {
         setDeleteOpen(true);
     };
-    const handleDeleteClose = () => {
+    const handleDeleteClose = async () => {
+        const response = await fetch(`http://localhost:6001/channel/deleteChannel`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                channelId: channelDetails.channelId,
+            }),
+        });
+        await response.json();
+        navigate("/userlist");
+        setIsRefresh((isRefresh) => !isRefresh);
         setDeleteOpen(false);
     };
     return (
@@ -125,8 +140,8 @@ const ChannelMenu = ({ channelDetails, userId, isAdmin, setMenu }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDeleteClose}>Cancel</Button>
-                    <Button onClick={handleDeleteClose} autoFocus>
+                    <Button onClick={() => setDeleteOpen(false)}>Cancel</Button>
+                    <Button onClick={handleDeleteClose} autoFocus style={{ background: 'red', color: '#ffff' }}>
                         Delete
                     </Button>
                 </DialogActions>

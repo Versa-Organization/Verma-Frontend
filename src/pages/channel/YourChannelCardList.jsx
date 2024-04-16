@@ -26,69 +26,71 @@ const YourChannelCardList = ({ userId, token, isRefresh }) => {
     }, [isRefresh]);
 
     return (
-        <WidgetWrapper>
-            <Typography
-                color={palette.neutral.dark}
-                variant="h5"
-                fontWeight="500"
-                sx={{ mb: "1.5rem" }}
-            >
-                Your Channel
-            </Typography>
+        <>
+            {channelList?.length !== 0 && <WidgetWrapper>
+                <Typography
+                    color={palette.neutral.dark}
+                    variant="h5"
+                    fontWeight="500"
+                    sx={{ mb: "1.5rem" }}
+                >
+                    Your Channel
+                </Typography>
 
-            <Box style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between' }}>
-                {channelList &&
-                    channelList?.slice().reverse().map((channel) => {
-                        return (
-                            <Box
-                                style={{ width: "180px", height: "150px", flex: "1 1 30%" }}
-                            >
-                                <Card
-                                    style={{
-                                        borderRadius: "25px",
-                                        width: "100%",
-                                        height: "100%",
-                                    }}
+                <Box style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between' }}>
+                    {channelList &&
+                        channelList?.slice().reverse().map((channel) => {
+                            return (
+                                <Box
+                                    style={{ width: "180px", height: "150px", flex: "1 1 30%" }}
                                 >
-                                    <CardContent>
-                                        <Box
-                                            style={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                gap: "1rem",
-                                            }}
-                                        >
-                                            <Box style={{ width: "30px", height: "30px" }}>
-                                                <img
-                                                    src={
-                                                        channel.channelImage
-                                                            ? channel.channelImage
-                                                            : logo1
-                                                    }
-                                                    width="100%"
-                                                    height="100%"
-                                                    alt="Logo"
-                                                />
+                                    <Card
+                                        style={{
+                                            borderRadius: "25px",
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                    >
+                                        <CardContent>
+                                            <Box
+                                                style={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    gap: "1rem",
+                                                }}
+                                            >
+                                                <Box style={{ width: "30px", height: "30px" }}>
+                                                    <img
+                                                        src={
+                                                            channel.channelImage
+                                                                ? channel.channelImage
+                                                                : logo1
+                                                        }
+                                                        width="100%"
+                                                        height="100%"
+                                                        alt="Logo"
+                                                    />
+                                                </Box>
+                                                <Box>
+                                                    <Typography>{channel?.channelName}</Typography>
+                                                </Box>
+                                                <Box>
+                                                    <Button variant="contained" onClick={() => navigate(`/channel-details/${channel.channelId}`)} size="small" style={{ textTransform: 'none' }}>
+                                                        View Channel
+                                                    </Button>
+                                                </Box>
                                             </Box>
-                                            <Box>
-                                                <Typography>{channel?.channelName}</Typography>
-                                            </Box>
-                                            <Box>
-                                                <Button variant="contained" onClick={() => navigate(`/channel-details/${channel.channelId}`)} size="small" style={{ textTransform: 'none' }}>
-                                                    View Channel
-                                                </Button>
-                                            </Box>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            </Box>
-                        );
-                    })}
-            </Box>
+                                        </CardContent>
+                                    </Card>
+                                </Box>
+                            );
+                        })}
+                </Box>
 
-        </WidgetWrapper>
+            </WidgetWrapper>}
+        </>
     )
 }
 

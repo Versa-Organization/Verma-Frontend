@@ -4,7 +4,12 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import AutoCompleteTextField from "../../../components/AutoCompleteTextField";
 import UserImage from "../../../components/UserImage";
 
-const ChannelAddMember = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
+const ChannelAddMember = ({
+    channelDetails,
+    userId,
+    isAdmin,
+    setIsRefresh,
+}) => {
     const [friends, setFriends] = useState(null);
     const [value, setValue] = useState(null);
     const token = useSelector((state) => state.token);
@@ -31,12 +36,12 @@ const ChannelAddMember = ({ channelDetails, userId, isAdmin, setIsRefresh }) => 
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     channelId: channelDetails.channelId,
-                    receipantId: id
+                    receipantId: id,
                 }),
             }
         );
@@ -45,23 +50,20 @@ const ChannelAddMember = ({ channelDetails, userId, isAdmin, setIsRefresh }) => 
     };
 
     const handleRemoveMember = async (id) => {
-        const response = await fetch(
-            `http://localhost:6001/channel/removeMember`,
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    channelId: channelDetails.channelId,
-                    receipantId: id
-                }),
-            }
-        );
+        const response = await fetch(`http://localhost:6001/channel/removeMember`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                channelId: channelDetails.channelId,
+                receipantId: id,
+            }),
+        });
         await response.json();
         getFriends();
-    }
+    };
 
     return (
         <Box>
@@ -72,7 +74,7 @@ const ChannelAddMember = ({ channelDetails, userId, isAdmin, setIsRefresh }) => 
                     alignItems: "center",
                 }}
             >
-                <Typography variant="h3">Search</Typography>
+                <Typography variant="h3">Search from your contact list</Typography>
                 <AutoCompleteTextField
                     userList={friends}
                     value={value}
@@ -112,7 +114,11 @@ const ChannelAddMember = ({ channelDetails, userId, isAdmin, setIsRefresh }) => 
                                         background: "#006d77",
                                         color: "#ffff",
                                     }}
-                                    onClick={() => member ? handleRemoveMember(response._id) : handleAddMember(response._id)}
+                                    onClick={() =>
+                                        member
+                                            ? handleRemoveMember(response._id)
+                                            : handleAddMember(response._id)
+                                    }
                                 >
                                     {member ? `Remove from channel` : `Add in channel`}
                                 </Button>

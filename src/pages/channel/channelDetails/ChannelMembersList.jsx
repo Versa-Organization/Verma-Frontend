@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Chip, Typography } from "@mui/material";
 import UserImage from "../../../components/UserImage";
 import { useSelector } from "react-redux";
 
 const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
   const token = useSelector((state) => state.token);
+  const [backgroundColor, setBackgroundColor] = useState('');
+
+  useEffect(() => {
+    // Generate a random background color when the component mounts
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    setBackgroundColor(randomColor);
+  }, []);
 
   const handleRemoveMember = async (id) => {
     const details = JSON.stringify({
@@ -31,6 +38,48 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
       body: details,
     });
     await adminResponse.json();
+    await response.json();
+    setIsRefresh((refresh) => !refresh);
+  };
+
+  const handleAddAdmin = async (id) => {
+    const details = JSON.stringify({
+      channelId: channelDetails.channelId,
+      receipantId: id,
+    });
+
+    const response = await fetch(
+      `http://localhost:6001/channel/addAdminChannel`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: details,
+      }
+    );
+    await response.json();
+    setIsRefresh((refresh) => !refresh);
+  };
+
+  const handleRemoveAdmin = async (id) => {
+    const details = JSON.stringify({
+      channelId: channelDetails.channelId,
+      receipantId: id,
+    });
+
+    const response = await fetch(
+      `http://localhost:6001/channel/removeAdminChannel`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: details,
+      }
+    );
     await response.json();
     setIsRefresh((refresh) => !refresh);
   };
@@ -66,6 +115,14 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
                   }}
                 />
               )}
+
+              {isAdmin && <Chip label="Admin"
+                style={{
+                  // background: "#006d77",
+                  background: backgroundColor,
+                  color: "#ffff",
+                  padding: "0.5rem",
+                }} />}
             </Box>
             <Box style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               <Button
@@ -76,6 +133,11 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
                   background: isAdmin ? "#ff7d00" : "#006d77",
                   color: "#ffff",
                 }}
+                onClick={() =>
+                  isAdmin
+                    ? handleRemoveAdmin(response._id)
+                    : handleAddAdmin(response._id)
+                }
               >
                 {isAdmin
                   ? yourId

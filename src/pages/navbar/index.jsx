@@ -116,7 +116,7 @@ const Navbar = () => {
             }}
           />
           <FitbitIcon
-            onClick={() => navigate("/userlist")}
+            onClick={() => navigate("/channel")}
             sx={{
               fontSize: "25px",
               cursor: "pointer",

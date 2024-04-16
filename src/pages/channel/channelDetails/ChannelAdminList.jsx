@@ -1,12 +1,61 @@
 import React from "react";
 import { Box, Button, Chip, Typography } from "@mui/material";
 import UserImage from "../../../components/UserImage";
+import { useSelector } from "react-redux";
 
-const ChannelAdminList = ({ channelDetails, userId }) => {
+const ChannelAdminList = ({ channelDetails, userId, setIsRefresh }) => {
+  const token = useSelector((state) => state.token);
+  const handleRemoveAdmin = async (id) => {
+    const details = JSON.stringify({
+      channelId: channelDetails.channelId,
+      receipantId: id,
+    });
+
+    const response = await fetch(
+      `http://localhost:6001/channel/removeAdminChannel`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: details,
+      }
+    );
+    await response.json();
+    setIsRefresh((refresh) => !refresh);
+  };
+  const handleRemoveMember = async (id) => {
+    const details = JSON.stringify({
+      channelId: channelDetails.channelId,
+      receipantId: id,
+    });
+    const adminResponse = await fetch(
+      `http://localhost:6001/channel/removeAdminChannel`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: details,
+      }
+    );
+    const response = await fetch(`http://localhost:6001/channel/removeMember`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: details,
+    });
+    await adminResponse.json();
+    await response.json();
+    setIsRefresh((refresh) => !refresh);
+  };
   return (
     <Box>
       {channelDetails?.channelAdmin.map((response) => {
-        console.log("response", response);
         return (
           <Box
             style={{
@@ -21,7 +70,7 @@ const ChannelAdminList = ({ channelDetails, userId }) => {
               <Typography variant="h5" style={{ fontWeight: "bold" }}>
                 {`${response?.firstName} ${response?.lastName}`}
               </Typography>
-              {channelDetails.channelCreatedBy === userId && (
+              {response._id === userId && (
                 <Chip
                   label="You"
                   style={{
@@ -41,6 +90,7 @@ const ChannelAdminList = ({ channelDetails, userId }) => {
                   background: "#ff7d00",
                   color: "#ffff",
                 }}
+                onClick={() => handleRemoveAdmin(response._id)}
               >
                 Remove from admin
               </Button>
@@ -52,6 +102,7 @@ const ChannelAdminList = ({ channelDetails, userId }) => {
                   background: "#d62828",
                   color: "#ffff",
                 }}
+                onClick={() => handleRemoveMember(response._id)}
               >
                 Kick out
               </Button>

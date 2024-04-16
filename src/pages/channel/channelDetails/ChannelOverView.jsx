@@ -8,15 +8,35 @@ import GppGoodIcon from "@mui/icons-material/GppGood";
 import ChannelPrivacyMore from "./ChannelPrivacyMore";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import ChannelAdminList from "./ChannelAdminList";
 import ChannelMembersList from "./ChannelMembersList";
 import ChannelAddMember from "./ChannelAddMember";
+import ChannelEditForm from "./ChannelEditForm";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const [menu, setMenu] = React.useState(null);
   const [privacyOpen, setPrivacyOpen] = React.useState(false);
+
+  const handleUnfollow = async (id) => {
+    const response = await fetch(`http://localhost:6001/channel/leaveChannel`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        channelId: id,
+      }),
+    });
+    await response.json();
+    navigate("/userlist");
+    setIsRefresh((isRefresh) => !isRefresh);
+  }
 
   return (
     <Box
@@ -24,7 +44,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
         display: "flex",
         gap: "1rem",
         flexWrap: "wrap",
-        width: menu ? "100%" : "50%"
+        width: "100%",
       }}
     >
       <WidgetWrapper style={{ height: "100%", flex: "1 30%" }}>
@@ -97,14 +117,18 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
           >
             <ChannelShare />
           </Box>
-          <Box style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <ChannelMenu
-              channelDetails={channelDetails}
-              userId={userId}
-              isAdmin={isAdmin}
-              setMenu={setMenu}
-            />
-          </Box>
+          {isAdmin && (
+            <Box style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+              <ChannelMenu
+                channelDetails={channelDetails}
+                userId={userId}
+                isAdmin={isAdmin}
+                setMenu={setMenu}
+                token={token}
+                setIsRefresh={setIsRefresh}
+              />
+            </Box>
+          )}
         </Box>
         <Divider style={{ marginTop: "1rem" }} />
         <Box
@@ -199,35 +223,18 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
           }}
         >
           <Divider orientation="vertical" variant="fullWidth" flexItem />
-          {(channelDetails?.channelCreatedBy === userId || isAdmin) && (
-            <Box
-              style={{ display: "flex", gap: "0.5rem", color: "red" }}
-              onClick={() => alert("pri")}
-            >
-              <ChangeCircleIcon style={{ color: "blue" }} />
-              <Typography
-                style={{ fontWeight: "bold", cursor: "pointer", color: "blue" }}
-              >
-                Change to Private
-              </Typography>
-            </Box>
-          )}
-          {(channelDetails?.channelCreatedBy === userId || isAdmin) && (
-            <Divider orientation="vertical" variant="fullWidth" flexItem />
-          )}
           <Box
             style={{ display: "flex", gap: "0.5rem", color: "red" }}
-            onClick={() => alert("unfllow")}
           >
             <LogoutIcon />
-            <Typography style={{ fontWeight: "bold", cursor: "pointer" }}>
+            <Typography style={{ fontWeight: "bold", cursor: "pointer" }} onClick={() => handleUnfollow(channelDetails.channelId)}>
               Unfollow channel
             </Typography>
           </Box>
           <Divider orientation="vertical" variant="fullWidth" flexItem />
           <Box
             style={{ display: "flex", gap: "0.5rem", color: "red" }}
-            onClick={() => alert("report")}
+            onClick={() => alert("Future Enhancement")}
           >
             <ReportProblemIcon />
             <Typography style={{ fontWeight: "bold", cursor: "pointer" }}>
@@ -273,6 +280,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
                     channelDetails={channelDetails}
                     userId={userId}
                     isAdmin={isAdmin}
+                    setIsRefresh={setIsRefresh}
                   />
                 </Box>
               )}
@@ -297,7 +305,16 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
                 </Box>
               )}
 
-
+              {menu === "editChannel" && (
+                <Box style={{ marginTop: "1rem" }}>
+                  <ChannelEditForm
+                    channelDetails={channelDetails}
+                    userId={userId}
+                    isAdmin={isAdmin}
+                    setIsRefresh={setIsRefresh}
+                  />
+                </Box>
+              )}
             </WidgetWrapper>
           )}
         </>

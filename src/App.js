@@ -16,6 +16,7 @@ import { initiateSocketConnection } from "./utils/socketHelper";
 import MessageComponent from "./pages/message/MessageComponent";
 import UserList from "./pages/UserList/UserList";
 import ChannelDetailsIndex from "./pages/channel/channelDetails/ChannelDetailsIndex";
+import ChannelContentIndex from "./pages/channel/channelContent/ChannelContentIndex";
 
 const App = () => {
   const mode = useSelector((state) => state.mode);
@@ -48,6 +49,10 @@ const App = () => {
         <Route
           path="/channel-details/:id"
           element={isAuth ? <ChannelDetailsIndex /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/channel"
+          element={isAuth ? <ChannelContentIndex /> : <Navigate to="/" />}
         />
 
         <Route path="*" element={<NotFound />} />

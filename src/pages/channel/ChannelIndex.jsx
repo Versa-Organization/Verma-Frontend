@@ -3,6 +3,7 @@ import { Box, Typography, Button } from "@mui/material";
 import WidgetWrapper from '../../components/WidgetWrapper';
 import ChannelCardList from './ChannelCardList';
 import CreateChannelForm from './CreateChannelForm';
+import ChannelFollowedCardList from './ChannelFollowedCardList';
 
 const ChannelIndex = ({ setIsRefresh, isRefresh }) => {
     const [open, setOpen] = React.useState(false);
@@ -36,11 +37,12 @@ const ChannelIndex = ({ setIsRefresh, isRefresh }) => {
                     </Box>
                 </WidgetWrapper>}
 
-            <WidgetWrapper>
-                <Box>
-                    <ChannelCardList isRefresh={isRefresh} />
-                </Box>
-            </WidgetWrapper>
+            <Box>
+                <ChannelFollowedCardList isRefresh={isRefresh} />
+            </Box>
+            <Box>
+                <ChannelCardList isRefresh={isRefresh} setIsRefresh={setIsRefresh} />
+            </Box>
         </Box>
     )
 }
