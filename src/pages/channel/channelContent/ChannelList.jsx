@@ -19,6 +19,16 @@ const ChannelList = ({ followedChannelList, onClick }) => {
             <Box>
                 {followedChannelList &&
                     followedChannelList.map((channel) => {
+                        const message = channel?.channelContent?.lastMessage;
+
+                        const maxCharacters = 50; // Maximum characters to display
+                        const ellipsis = '...'; // Ellipsis to indicate truncated text
+
+                        let displayMessage = message;
+
+                        if (message && message.length > maxCharacters) {
+                            displayMessage = message.substring(0, maxCharacters) + ellipsis;
+                        }
                         return (
                             <>
                                 <Box
@@ -52,7 +62,7 @@ const ChannelList = ({ followedChannelList, onClick }) => {
                                             <Typography variant="h5" style={{ fontWeight: "bold" }}>
                                                 {channel?.channelName}
                                             </Typography>
-                                            <Typography variant="body">{channel?.channelContent?.lastMessage}</Typography>
+                                            <Typography variant="body" style={{ wordWrap: 'nowrap', width: '100%' }}>{displayMessage}</Typography>
                                         </Box>
                                     </Box>
                                     <Box style={{ display: "flex", gap: "1rem" }}>

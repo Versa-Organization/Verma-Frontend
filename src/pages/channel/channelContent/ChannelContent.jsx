@@ -1,11 +1,11 @@
 import { Box, Divider, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import logo1 from "../../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SendContent from "./SendContent";
 import ReceiverMessageComponent from "./MessageComponent/ReceiverMessageComponent";
-import SendMessageComponent from "./MessageComponent/SendMessageComponent";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const ChannelContent = ({ channel, userId, token, setIsRefresh, isRefresh }) => {
     const navigate = useNavigate();
@@ -13,6 +13,15 @@ const ChannelContent = ({ channel, userId, token, setIsRefresh, isRefresh }) => 
     const [message, setMessage] = React.useState(null);
     const [getMessages, setGetMessages] = React.useState();
     const isAdmin = channel.channelAdmin.some((filter) => filter === userId);
+    const socket = new WebSocket('ws://localhost:3000');
+
+    const scrollbarsRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollbarsRef.current) {
+            scrollbarsRef.current.scrollToBottom();
+        }
+    }, [getMessages]);
 
     const getContent = async () => {
         const response = await fetch(`http://localhost:6001/channel/getContentChannel`, {
@@ -95,17 +104,25 @@ const ChannelContent = ({ channel, userId, token, setIsRefresh, isRefresh }) => 
             </Box>
             <Divider style={{ marginTop: "0.5rem" }} />
 
-            <Box
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    flexGrow: 1,
-                    padding: "0.5rem",
-                    gap: "0.5rem",
-                }}
+            <Scrollbars
+                style={{ marginBottom: '0.2rem' }}
+                autoHide
+                autoHideTimeout={1000}
+                autoHideDuration={200}
+                ref={scrollbarsRef}
             >
-                <ReceiverMessageComponent getMessages={getMessages?.content} userId={userId} />
-            </Box>
+                <Box
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flexGrow: 1,
+                        padding: "0.5rem",
+                        gap: "0.5rem"
+                    }}
+                >
+                    <ReceiverMessageComponent getMessages={getMessages?.content} userId={userId} />
+                </Box>
+            </Scrollbars>
 
             <Box style={{ width: `100%` }}>
                 {(channel.isCommunicateEveryOne || isAdmin) && <SendContent

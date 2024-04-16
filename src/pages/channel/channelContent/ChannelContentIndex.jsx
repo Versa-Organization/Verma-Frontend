@@ -5,6 +5,7 @@ import WidgetWrapper from "../../../components/WidgetWrapper";
 import ChannelList from "./ChannelList";
 import { useSelector } from "react-redux";
 import ChannelContent from "./ChannelContent";
+import { AiFillMessage } from "react-icons/ai";
 
 const ChannelContentIndex = () => {
   const [followedChannelList, setFollowedChannelList] = React.useState();
@@ -62,7 +63,23 @@ const ChannelContentIndex = () => {
               setIsRefresh={setIsRefresh}
             />
           ) : (
-            "Open"
+            <Box
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <AiFillMessage size={80} />
+                <Typography variant="h5">Welcome to Verma Channel Communittee</Typography>
+                <Typography color="text.secondary">
+                  In this channel, feel free to privately message other users on Verma. It's a great way to have one-on-one conversations without the whole group seeing.
+                </Typography>
+              </Box>
+            </Box>
           )}
         </WidgetWrapper>
       </Box>
