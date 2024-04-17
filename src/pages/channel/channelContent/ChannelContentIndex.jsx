@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Navbar from "../../navbar";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 import ChannelList from "./ChannelList";

@@ -4,8 +4,6 @@ import logo1 from "../../../../assets/logo1.png";
 import moment from "moment";
 
 const ReceiverMessageComponent = ({ getMessages, userId }) => {
-    console.log("getMessages", getMessages);
-
     return (
         <Box
             style={{

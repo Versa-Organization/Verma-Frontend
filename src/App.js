@@ -12,19 +12,18 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
-import { initiateSocketConnection } from "./utils/socketHelper";
-import MessageComponent from "./pages/message/MessageComponent";
 import UserList from "./pages/UserList/UserList";
 import ChannelDetailsIndex from "./pages/channel/channelDetails/ChannelDetailsIndex";
 import ChannelContentIndex from "./pages/channel/channelContent/ChannelContentIndex";
+import { initializeSocket } from "./utils/Socket";
+import CommunicationIndex from "./pages/communication/CommunicationIndex";
 
 const App = () => {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.token));
   const user = useSelector((state) => state.token);
-
-  initiateSocketConnection(user);
+  initializeSocket();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -40,7 +39,7 @@ const App = () => {
         />
         <Route
           path="/message"
-          element={isAuth ? <MessageComponent /> : <Navigate to="/" />}
+          element={isAuth ? <CommunicationIndex /> : <Navigate to="/" />}
         />
         <Route
           path="/userlist"
