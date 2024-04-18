@@ -4,8 +4,7 @@ import UserImage from "../../components/UserImage";
 import moment from "moment";
 
 const MessageCardComponent = ({ message, receiptantDetails, loggedInUser }) => {
-  console.log("message.senderId", message.senderId);
-  console.log("userId", loggedInUser);
+
   return (
     <Box style={{ width: "100%" }}>
       {message?.senderId !== loggedInUser._id && (

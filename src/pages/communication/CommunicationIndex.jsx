@@ -10,6 +10,8 @@ import Scrollbars from "react-custom-scrollbars-2";
 import UserImage from "../../components/UserImage";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ContentCommunication from "./ContentCommunication";
+import CallIcon from '@mui/icons-material/Call';
+import VideocamIcon from '@mui/icons-material/Videocam';
 
 const CommunicationIndex = () => {
   const scrollbarsRef = useRef(null);
@@ -34,8 +36,6 @@ const CommunicationIndex = () => {
   useEffect(() => {
     getParticipants();
   }, []);
-
-  console.log("participants", participants);
 
   return (
     <Box style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -68,42 +68,42 @@ const CommunicationIndex = () => {
                 </Typography>
               </Box>
               <Divider style={{ marginTop: "1rem" }} />
-              <Box>
-                {/* <Scrollbars
-                                    autoHide
-                                    autoHideTimeout={1000}
-                                    autoHideDuration={200}
-                                    ref={scrollbarsRef}
-                                > */}
-                {participants?.map((participant) => {
-                  return (
-                    <Box
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                        width: "100%",
-                      }}
-                    >
-                      <ParticipantCommunication
-                        receipantName={`${participant.receiptantDetails.firstName} ${participant.receiptantDetails.lastName}`}
-                        receipantPicture={
-                          participant.receiptantDetails.picturePath
-                        }
-                        communicationLastDetails={
-                          participant.communicationLastDetails
-                        }
-                        onClick={() => {
-                          setCommunication(participant);
-                          setIsRefresh((prev) => !prev);
+              <Scrollbars
+                autoHide
+                autoHideTimeout={1000}
+                autoHideDuration={200}
+                ref={scrollbarsRef}
+              >
+                <Box>
+                  {participants?.map((participant) => {
+                    return (
+                      <Box
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1rem",
+                          width: "100%",
                         }}
-                      />
-                      <Divider />
-                    </Box>
-                  );
-                })}
-                {/* </Scrollbars> */}
-              </Box>
+                      >
+                        <ParticipantCommunication
+                          receipantName={`${participant.receiptantDetails.firstName} ${participant.receiptantDetails.lastName}`}
+                          receipantPicture={
+                            participant.receiptantDetails.picturePath
+                          }
+                          communicationLastDetails={
+                            participant.communicationLastDetails
+                          }
+                          onClick={() => {
+                            setCommunication(participant);
+                            setIsRefresh((prev) => !prev);
+                          }}
+                        />
+                        <Divider />
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Scrollbars>
             </Box>
           ) : (
             <Box
@@ -159,7 +159,15 @@ const CommunicationIndex = () => {
                   />
                   <Typography variant="h4">{`${communication.receiptantDetails.firstName} ${communication.receiptantDetails.lastName}`}</Typography>
                 </Box>
-                <Box>
+                <Box style={{ display: 'flex', gap: '2rem' }}>
+                  <CallIcon
+                    onClick={() => alert("Future Enhacement!!!")}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <VideocamIcon
+                    onClick={() => alert("Future Enhacement!!!")}
+                    style={{ cursor: "pointer" }}
+                  />
                   <MoreVertIcon
                     onClick={() => alert("Future Enhacement!!!")}
                     style={{ cursor: "pointer" }}

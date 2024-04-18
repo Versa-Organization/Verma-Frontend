@@ -25,6 +25,7 @@ const SendMessageComponent = ({ onChange, value, setAttachment, onClick, onKeyDo
                     padding: '0.5rem',
                     outline: 'none'
                 }}
+                placeholder="write a message here..."
                 onChange={(event) => onChange(event)}
                 value={value}
                 onKeyDown={(event) => onKeyDown(event)}

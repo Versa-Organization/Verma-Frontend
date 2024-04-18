@@ -147,6 +147,11 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
               ? "Private Channel"
               : "Public Channel"}
           </Typography>
+          <Typography variant="body">
+            {channelDetails?.isCommunicateEveryOne
+              ? "Everyone can send message"
+              : "Only admins can send message"}
+          </Typography>
           {channelDetails?.channelCreatedBy === userId ? (
             <Typography variant="body">
               What you share can be seen by everyone except your application.

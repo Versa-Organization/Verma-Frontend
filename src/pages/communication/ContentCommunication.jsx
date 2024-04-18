@@ -65,7 +65,6 @@ const ContentCommunication = ({
             }
         );
         const data = await response.json();
-        console.log("data", data.content);
         socket.emit("sendPersonalMessage", {
             conversationId: communication.communicationId,
             userId: loggedInUser._id,

@@ -8,9 +8,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import UserImage from "./UserImage";
 import { Typography, useTheme, Box } from "@mui/material"
-import { sendMessage } from "../api/messages";
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { socket } from "../utils/Socket";
 
 export default function SendMessageFormDialog({
     setIsDisplayedForm,
@@ -28,10 +28,26 @@ export default function SendMessageFormDialog({
     const token = useSelector((state) => state.token);
 
     const handleSendMessage = async () => {
-        const newMessage = { direction: "from", content };
-
-        await sendMessage(token, newMessage, friendId, userId).then(() => {
-            navigate("/message");
+        const response = await fetch(
+            `http://localhost:6001/communication/sendMessage`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    receipantId: friendId,
+                    content: content,
+                }),
+            }
+        );
+        const data = await response.json();
+        navigate("/message");
+        socket.emit("sendPersonalMessage", {
+            conversationId: data.communicationId,
+            userId: userId,
+            content: data.content,
         });
     }
 

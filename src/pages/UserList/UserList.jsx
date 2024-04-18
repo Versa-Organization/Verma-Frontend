@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button, ButtonGroup } from "@mui/material";
 import Navbar from "../navbar";
 import { useSelector } from "react-redux";
 import ProfilePage from "./ProfilePage";
 import UserSuggestion from "./UserSuggestion";
 import ChannelIndex from "../channel/ChannelIndex";
+import WidgetWrapper from "../../components/WidgetWrapper";
+import FriendRequest from "./FriendRequest";
 
 const UserList = () => {
   const token = useSelector((state) => state.token);
@@ -14,6 +16,7 @@ const UserList = () => {
   const [addFriendLoading, setAddFriendLoading] = useState(false);
   const [receipantId, setReceipantId] = useState(null);
   const [isRefresh, setIsRefresh] = React.useState(false);
+  const [userSelect, setUserSelect] = useState(false);
 
   const getUserList = async () => {
     const response = await fetch(`http://localhost:6001/users`, {
@@ -61,17 +64,60 @@ const UserList = () => {
               width: "100%",
               height: "100%",
               flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
             }}
           >
-            <UserSuggestion
-              userList={userList}
-              userId={userId}
-              setReceipantId={setReceipantId}
-              receipantId={receipantId}
-              setAddFriendLoading={setAddFriendLoading}
-              addFriendLoading={addFriendLoading}
-              token={token}
-            />
+            <WidgetWrapper>
+              <Box style={{ width: "100%", padding: "1rem" }}>
+                <ButtonGroup
+                  fullWidth
+                  disableElevation
+                  aria-label="Disabled button group"
+                  style={{ textTransform: "none" }}
+                >
+                  <Button
+                    variant="outlined"
+                    style={{
+                      textTransform: "none",
+                      borderColor: userSelect ? "gray" : "none",
+                      color: userSelect ? "#e07a5f" : "#ffff",
+                      background: userSelect ? "none" : "#1e88e5",
+                    }}
+                    onClick={() => setUserSelect(false)}
+                  >
+                    Find more friends
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    disabled
+                    style={{
+                      textTransform: "none",
+                      borderColor: userSelect ? "none" : "gray",
+                      color: userSelect ? "#ffff" : "#e07a5f",
+                      background: userSelect ? "#1e88e5" : "none",
+                    }}
+                    onClick={() => setUserSelect(true)}
+                  >
+                    Friend requests
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </WidgetWrapper>
+            {!userSelect && (
+              <UserSuggestion
+                userList={userList}
+                userId={userId}
+                setReceipantId={setReceipantId}
+                receipantId={receipantId}
+                setAddFriendLoading={setAddFriendLoading}
+                addFriendLoading={addFriendLoading}
+                token={token}
+              />
+            )}
+
+            {userSelect && <FriendRequest />}
           </Box>
 
           {/* SEARCH USERS */}
