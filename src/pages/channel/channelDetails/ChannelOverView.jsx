@@ -115,7 +115,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
               alignItems: "center",
             }}
           >
-            <ChannelShare />
+            <ChannelShare channelDetails={channelDetails} isAdmin={isAdmin} />
           </Box>
           {isAdmin && (
             <Box style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
