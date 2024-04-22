@@ -36,7 +36,7 @@ const ChannelContentIndex = () => {
   };
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <Box style={{ display: "flex", flexDirection: "column", gap: "1rem", height: '100vh' }}>
       <Navbar />
       <Box
         style={{

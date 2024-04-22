@@ -38,7 +38,7 @@ const CommunicationIndex = () => {
   }, []);
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <Box style={{ display: "flex", flexDirection: "column", gap: "1rem", height: '100vh' }}>
       <Navbar />
 
       <Box
@@ -73,6 +73,7 @@ const CommunicationIndex = () => {
                 autoHideTimeout={1000}
                 autoHideDuration={200}
                 ref={scrollbarsRef}
+                style={{ padding: '1rem' }}
               >
                 <Box>
                   {participants?.map((participant) => {
