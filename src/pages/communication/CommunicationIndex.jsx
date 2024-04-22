@@ -23,7 +23,7 @@ const CommunicationIndex = () => {
 
   const getParticipants = async () => {
     const response = await fetch(
-      `http://localhost:6001/communication/getParticipant`,
+      `${process.env.REACT_APP_API_URL}/communication/getParticipant`,
       {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },

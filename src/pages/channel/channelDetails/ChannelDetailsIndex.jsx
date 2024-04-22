@@ -19,7 +19,7 @@ const ChannelDetailsIndex = () => {
     const getChannelDetails = async () => {
         if (id) {
             const response = await fetch(
-                `http://localhost:6001/channel/getChannelById`,
+                `${process.env.REACT_APP_API_URL}/channel/getChannelById`,
                 {
                     method: "POST",
                     headers: {

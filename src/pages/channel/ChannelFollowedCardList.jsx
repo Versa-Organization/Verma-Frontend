@@ -13,7 +13,7 @@ const ChannelFollowedCardList = ({ isDisplay, isRefresh }) => {
 
     const getChannelList = async () => {
         const response = await fetch(
-            "http://localhost:6001/channel/getFollowedChannel",
+            `${process.env.REACT_APP_API_URL}/channel/getFollowedChannel`,
             {
                 method: "GET",
                 headers: {

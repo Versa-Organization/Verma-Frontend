@@ -10,7 +10,7 @@ const YourChannelCardList = ({ userId, token, isRefresh }) => {
     const [channelList, setChannelList] = useState();
 
     const getChannelList = async () => {
-        const response = await fetch(`http://localhost:6001/channel/myChannel`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/myChannel`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

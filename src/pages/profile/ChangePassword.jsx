@@ -18,7 +18,7 @@ const ChangePassword = ({ token }) => {
         if (newPassword !== confirmPassword) {
             enqueueSnackbar('New password is not matched with confirm password', { variant: 'error' })
         }
-        const response = await fetch(`http://localhost:6001/auth/changePassword`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/changePassword`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,

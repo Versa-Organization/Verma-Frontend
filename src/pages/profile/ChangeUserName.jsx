@@ -14,7 +14,7 @@ const ChangeUserName = ({ user, setIsEffect }) => {
         if (firstName === user.firstName && lastName === user.lastName) {
             return enqueueSnackbar('First name and last name must be different.', { variant: 'error' });
         }
-        const response = await fetch(`http://localhost:6001/auth/changeUserName`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/changeUserName`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,

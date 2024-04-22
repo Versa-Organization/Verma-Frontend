@@ -55,7 +55,7 @@ const CreateChannelForm = ({ setIsRefresh }) => {
     //   formData.append("picture", image);
     //   formData.append("channelImage", image.name);
     // }
-    await fetch(`http://localhost:6001/channel`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/channel`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

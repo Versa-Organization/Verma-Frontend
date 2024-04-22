@@ -29,7 +29,7 @@ export default function SendMessageFormDialog({
 
     const handleSendMessage = async () => {
         const response = await fetch(
-            `http://localhost:6001/communication/sendMessage`,
+            `${process.env.REACT_APP_API_URL}/communication/sendMessage`,
             {
                 method: "POST",
                 headers: {

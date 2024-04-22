@@ -47,7 +47,7 @@ const ChannelShare = ({ channelDetails, isAdmin }) => {
 
     const handleCreateLink = async () => {
         const response = await fetch(
-            `http://localhost:6001/channel/createChannelLink`,
+            `${process.env.REACT_APP_API_URL}/channel/createChannelLink`,
             {
                 method: "POST",
                 headers: {

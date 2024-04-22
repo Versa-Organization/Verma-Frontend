@@ -114,7 +114,7 @@ const PostWidget = ({
   };
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:6001/posts/${postId}/like`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -156,7 +156,7 @@ const PostWidget = ({
   };
 
   const getComments = useCallback(async () => {
-    const response = await fetch(`http://localhost:6001/posts/getComments`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/getComments`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -178,7 +178,7 @@ const PostWidget = ({
   }, [getComments]);
 
   const sendComment = async () => {
-    const URL = `http://localhost:6001/posts/sendComment`;
+    const URL = `${process.env.REACT_APP_API_URL}/posts/sendComment`;
     if (comment) {
       const response = await fetch(URL, {
         method: "POST",
@@ -199,7 +199,7 @@ const PostWidget = ({
   const sendCommentReply = async (commentId, i) => {
     if (commentReply) {
       const response = await fetch(
-        `http://localhost:6001/posts/sendCommentReply`,
+        `${process.env.REACT_APP_API_URL}/posts/sendCommentReply`,
         {
           method: "POST",
           headers: {
@@ -225,7 +225,7 @@ const PostWidget = ({
   };
   const editCommentClick = async () => {
     if (isEditComment.comment) {
-      const response = await fetch(`http://localhost:6001/posts/editComment`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/editComment`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -252,7 +252,7 @@ const PostWidget = ({
     }
   };
   const deleteCommentClick = async (commentId) => {
-    const response = await fetch(`http://localhost:6001/posts/deleteComment`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/deleteComment`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -273,7 +273,7 @@ const PostWidget = ({
   const editReplyCommentClick = async () => {
     if (isEditReplyComment.comment) {
       const response = await fetch(
-        `http://localhost:6001/posts/editReplyComment`,
+        `${process.env.REACT_APP_API_URL}/posts/editReplyComment`,
         {
           method: "POST",
           headers: {
@@ -305,7 +305,7 @@ const PostWidget = ({
   };
   const deleteReplyCommentClick = async (commentId, commentReplyId) => {
     const response = await fetch(
-      `http://localhost:6001/posts/deleteReplyComment`,
+      `${process.env.REACT_APP_API_URL}/posts/deleteReplyComment`,
       {
         method: "POST",
         headers: {
@@ -357,7 +357,7 @@ const PostWidget = ({
                   maxHeight: "fit-content",
                   maxWidth: "100%",
                 }}
-                src={`http://localhost:6001/assets/${picturePath}`}
+                src={`${process.env.REACT_APP_API_URL}/assets/${picturePath}`}
               />
             )}
 
@@ -376,7 +376,7 @@ const PostWidget = ({
                     maxWidth: "100%",
                   }}
                 >
-                  <source src={`http://localhost:6001/assets/${picturePath}`} type="video/mp4" />
+                  <source src={`${process.env.REACT_APP_API_URL}/assets/${picturePath}`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
 
@@ -422,7 +422,7 @@ const PostWidget = ({
           {[".mp3", ".ogg", ".wav"].some((ext) => picturePath.endsWith(ext)) && (
             <audio controls style={{ marginTop: "0.75rem", width: "100%" }}>
               <source
-                src={`http://localhost:6001/assets/${picturePath}`}
+                src={`${process.env.REACT_APP_API_URL}/assets/${picturePath}`}
                 type="audio/mpeg"
               />
               Your browser does not support the audio element.
@@ -433,7 +433,7 @@ const PostWidget = ({
             picturePath.endsWith(ext)
           ) && (
               <embed
-                src={`http://localhost:6001/assets/${picturePath}`}
+                src={`${process.env.REACT_APP_API_URL}/assets/${picturePath}`}
                 type="application/pdf"
                 width="100%"
                 height="500px"

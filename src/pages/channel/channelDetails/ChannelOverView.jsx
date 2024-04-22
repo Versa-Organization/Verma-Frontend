@@ -23,7 +23,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
   const [privacyOpen, setPrivacyOpen] = React.useState(false);
 
   const handleUnfollow = async (id) => {
-    const response = await fetch(`http://localhost:6001/channel/leaveChannel`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/leaveChannel`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

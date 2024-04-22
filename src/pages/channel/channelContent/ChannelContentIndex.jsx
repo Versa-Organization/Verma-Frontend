@@ -16,7 +16,7 @@ const ChannelContentIndex = () => {
 
   const getFollowedChannelList = async () => {
     const response = await fetch(
-      `http://localhost:6001/channel/getConentListChannel`,
+      `${process.env.REACT_APP_API_URL}/channel/getConentListChannel`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

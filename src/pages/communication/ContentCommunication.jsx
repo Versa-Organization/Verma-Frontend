@@ -51,7 +51,7 @@ const ContentCommunication = ({
 
     const handleSendMessage = async () => {
         const response = await fetch(
-            `http://localhost:6001/communication/sendMessage`,
+            `${process.env.REACT_APP_API_URL}/communication/sendMessage`,
             {
                 method: "POST",
                 headers: {
@@ -76,7 +76,7 @@ const ContentCommunication = ({
     const getMessage = async () => {
         setIsTime(true);
         const response = await fetch(
-            `http://localhost:6001/communication/getMessages`,
+            `${process.env.REACT_APP_API_URL}/communication/getMessages`,
             {
                 method: "POST",
                 headers: {

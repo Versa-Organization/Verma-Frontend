@@ -12,7 +12,7 @@ const ChannelCardList = ({ isDisplay, isRefresh, setIsRefresh }) => {
   const userId = useSelector((state) => state.user._id);
 
   const getChannelList = async () => {
-    const response = await fetch("http://localhost:6001/channel", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/channel`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const ChannelCardList = ({ isDisplay, isRefresh, setIsRefresh }) => {
   }, [isRefresh]);
 
   const handleJoinChannel = async (id) => {
-    const response = await fetch("http://localhost:6001/channel/joinChannel", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/joinChannel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

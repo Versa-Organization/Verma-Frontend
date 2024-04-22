@@ -35,7 +35,7 @@ const UserSuggestion = ({
     setAddFriendLoading(true);
     const rcptId = id ? id : receipantId;
     const response = await fetch(
-      `http://localhost:6001/users/${userId}/${rcptId}`,
+      `${process.env.REACT_APP_API_URL}/users/${userId}/${rcptId}`,
       {
         method: "PATCH",
         headers: {

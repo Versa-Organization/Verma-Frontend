@@ -29,7 +29,7 @@ const ChannelIndex = ({ setIsRefresh, isRefresh }) => {
             const searchParams = new URLSearchParams(new URL(link).search);
             const allId = searchParams.get('id');
             const channelId = allId.split("/")[0];
-            const response = await fetch("http://localhost:6001/channel/joinChannel", {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/joinChannel`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

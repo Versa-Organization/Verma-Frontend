@@ -15,7 +15,7 @@ const ChannelAddMember = ({
     const token = useSelector((state) => state.token);
     const getFriends = async () => {
         const response = await fetch(
-            `http://localhost:6001/users/${userId}/friends`,
+            `${process.env.REACT_APP_API_URL}/users/${userId}/friends`,
             {
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +32,7 @@ const ChannelAddMember = ({
 
     const handleAddMember = async (id) => {
         const response = await fetch(
-            `http://localhost:6001/channel/addMemberChannel`,
+            `${process.env.REACT_APP_API_URL}/channel/addMemberChannel`,
             {
                 method: "POST",
                 headers: {
@@ -50,7 +50,7 @@ const ChannelAddMember = ({
     };
 
     const handleRemoveMember = async (id) => {
-        const response = await fetch(`http://localhost:6001/channel/removeMember`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/removeMember`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

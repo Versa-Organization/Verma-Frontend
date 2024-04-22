@@ -38,7 +38,7 @@ const ChannelContent = ({ channel, userId, token, setIsRefresh }) => {
 
   const getContent = async () => {
     const response = await fetch(
-      `http://localhost:6001/channel/getContentChannel`,
+      `${process.env.REACT_APP_API_URL}/channel/getContentChannel`,
       {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ const ChannelContent = ({ channel, userId, token, setIsRefresh }) => {
 
   const handleSendMessage = async (channelId) => {
     const response = await fetch(
-      `http://localhost:6001/channel/sendContentChannel`,
+      `${process.env.REACT_APP_API_URL}/channel/sendContentChannel`,
       {
         method: "POST",
         headers: {

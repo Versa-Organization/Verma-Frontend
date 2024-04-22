@@ -10,7 +10,7 @@ const FriendRequest = () => {
 
     const getRequestList = async () => {
         const response = await fetch(
-            "http://localhost:6001/users/getFriendRequestList",
+            `${process.env.REACT_APP_API_URL}/users/getFriendRequestList`,
             {
                 method: "POST",
                 headers: {

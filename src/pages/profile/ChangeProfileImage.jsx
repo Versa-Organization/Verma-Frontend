@@ -21,7 +21,7 @@ const ChangeProfileImage = ({ setIsEffect }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-    const response = await fetch(`http://localhost:6001/changeProfileImage`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/changeProfileImage`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,

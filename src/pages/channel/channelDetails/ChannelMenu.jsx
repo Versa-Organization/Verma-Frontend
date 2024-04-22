@@ -29,7 +29,7 @@ const ChannelMenu = ({ channelDetails, userId, isAdmin, setMenu, token, setIsRef
         setDeleteOpen(true);
     };
     const handleDeleteClose = async () => {
-        const response = await fetch(`http://localhost:6001/channel/deleteChannel`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/deleteChannel`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,

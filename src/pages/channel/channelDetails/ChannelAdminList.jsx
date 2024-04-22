@@ -12,7 +12,7 @@ const ChannelAdminList = ({ channelDetails, userId, setIsRefresh }) => {
     });
 
     const response = await fetch(
-      `http://localhost:6001/channel/removeAdminChannel`,
+      `${process.env.REACT_APP_API_URL}/channel/removeAdminChannel`,
       {
         method: "POST",
         headers: {
@@ -31,7 +31,7 @@ const ChannelAdminList = ({ channelDetails, userId, setIsRefresh }) => {
       receipantId: id,
     });
     const adminResponse = await fetch(
-      `http://localhost:6001/channel/removeAdminChannel`,
+      `${process.env.REACT_APP_API_URL}/channel/removeAdminChannel`,
       {
         method: "POST",
         headers: {
@@ -41,7 +41,7 @@ const ChannelAdminList = ({ channelDetails, userId, setIsRefresh }) => {
         body: details,
       }
     );
-    const response = await fetch(`http://localhost:6001/channel/removeMember`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/channel/removeMember`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

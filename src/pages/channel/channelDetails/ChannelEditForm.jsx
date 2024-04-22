@@ -29,7 +29,7 @@ const ChannelEditForm = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
             isCommunicateEveryOne: isCommunicate,
         });
         const response = await fetch(
-            `http://localhost:6001/channel/updateChannel/${channelDetails.channelId}`,
+            `${process.env.REACT_APP_API_URL}/channel/updateChannel/${channelDetails.channelId}`,
             {
                 method: "POST",
                 headers: {
