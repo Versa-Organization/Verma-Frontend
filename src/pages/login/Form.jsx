@@ -72,7 +72,7 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {
     // send form info with img
-    isLoading(true);
+    // isLoading(true);
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
