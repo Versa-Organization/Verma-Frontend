@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 export let socket;
 
 export const initiateSocketConnection = (user) => {
-  socket = io("http://localhost:3000", {
+  socket = io(`${process.env.REACT_APP_SOCKET_URL}`, {
     auth: {
       token: user && user,
     },

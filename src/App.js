@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { HomePage, LoginPage, ProfilePage, NotFound } from "./pages";
 import RootLayout from "./layouts/RootLayout";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
@@ -24,6 +24,37 @@ const App = () => {
   const isAuth = Boolean(useSelector((state) => state.token));
   const user = useSelector((state) => state.token);
   initializeSocket();
+
+  const [ipAddress, setIpAddress] = useState('');
+
+  const getIpAddress = async () => {
+    try {
+      const { RTCPeerConnection, RTCSessionDescription } = window;
+      const pc = new RTCPeerConnection({ iceServers: [] });
+      pc.createDataChannel('');
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(new RTCSessionDescription(offer));
+
+      pc.onicecandidate = event => {
+        if (event.candidate) {
+          const ipAddressRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+          const match = ipAddressRegex.exec(event.candidate.candidate);
+          if (match) {
+            setIpAddress(match[1]);
+            pc.close();
+          }
+        }
+      };
+    } catch (error) {
+      console.error('Error getting IP address:', error);
+    }
+  }
+
+  useEffect(() => {
+    getIpAddress();
+  }, []);
+
+  console.log("ipAddress", ipAddress);
 
   const router = createBrowserRouter(
     createRoutesFromElements(

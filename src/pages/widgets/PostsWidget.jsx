@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setPosts } from "../../state/index";
 import PostWidget from "./PostWidget";
+import Scrollbars from "react-custom-scrollbars-2";
 
 const PostsWidget = ({ userId, isProfile = false, isEffect }) => {
+  const scrollbarsRef = useRef(null);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
@@ -40,38 +42,47 @@ const PostsWidget = ({ userId, isProfile = false, isEffect }) => {
 
   return (
     <>
-      {Array.isArray(posts) && posts.length > 0 ? (
-        posts.slice().reverse().map(
-          ({
-            _id,
-            userId,
-            firstName,
-            lastName,
-            description,
-            location,
-            picturePath,
-            userPicturePath,
-            likes,
-            comments,
-          }) => (
-            <PostWidget
-              key={_id}
-              postId={_id}
-              postUserId={userId}
-              name={`${firstName} ${lastName}`}
-              description={description}
-              location={location}
-              picturePath={picturePath}
-              userPicturePath={userPicturePath}
-              likes={likes}
-              comments={comments}
-              isEffect={isEffect}
-            />
+      <Scrollbars
+        autoHide
+        autoHideTimeout={1000}
+        autoHideDuration={200}
+        ref={scrollbarsRef}
+        style={{ padding: '1rem', marginTop: '1rem' }}
+      >
+        {Array.isArray(posts) && posts.length > 0 ? (
+          posts.slice().reverse().map(
+            ({
+              _id,
+              userId,
+              firstName,
+              lastName,
+              description,
+              location,
+              picturePath,
+              userPicturePath,
+              likes,
+              comments,
+            }) => (
+              <PostWidget
+                key={_id}
+                postId={_id}
+                postUserId={userId}
+                name={`${firstName} ${lastName}`}
+                description={description}
+                location={location}
+                picturePath={picturePath}
+                userPicturePath={userPicturePath}
+                likes={likes}
+                comments={comments}
+                isEffect={isEffect}
+              />
+            )
           )
-        )
-      ) : (
-        <p>No posts found</p>
-      )}
+        ) : (
+          <p>No posts found</p>
+        )}
+      </Scrollbars>
+
     </>
   );
 };
