@@ -15,15 +15,14 @@ import { themeSettings } from "./theme";
 import UserList from "./pages/UserList/UserList";
 import ChannelDetailsIndex from "./pages/channel/channelDetails/ChannelDetailsIndex";
 import ChannelContentIndex from "./pages/channel/channelContent/ChannelContentIndex";
-import { initializeSocket } from "./utils/Socket";
 import CommunicationIndex from "./pages/communication/CommunicationIndex";
+import { initializeSocket } from "./utils/Socket";
 
 const App = () => {
+  initializeSocket();
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.token));
-  const user = useSelector((state) => state.token);
-  initializeSocket();
 
   const [ipAddress, setIpAddress] = useState('');
 
