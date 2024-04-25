@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Chip, Typography } from "@mui/material";
 import UserImage from "../../../components/UserImage";
 import { useSelector } from "react-redux";
+import Skeleton from '@mui/material/Skeleton';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
+const ChannelMembersList = ({ channelDetails, userId, setIsRefresh, isLoading }) => {
   const token = useSelector((state) => state.token);
   const [backgroundColor, setBackgroundColor] = useState('');
+  const [adminLoading, setAdminLoading] = useState(false);
+  const [memberLoading, setMemberLoading] = useState(false);
 
   useEffect(() => {
     // Generate a random background color when the component mounts
@@ -14,6 +18,7 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
   }, []);
 
   const handleRemoveMember = async (id) => {
+    setMemberLoading(true)
     const details = JSON.stringify({
       channelId: channelDetails.channelId,
       receipantId: id,
@@ -40,9 +45,11 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
     await adminResponse.json();
     await response.json();
     setIsRefresh((refresh) => !refresh);
+    setMemberLoading(false);
   };
 
   const handleAddAdmin = async (id) => {
+    setAdminLoading(true);
     const details = JSON.stringify({
       channelId: channelDetails.channelId,
       receipantId: id,
@@ -61,9 +68,11 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
     );
     await response.json();
     setIsRefresh((refresh) => !refresh);
+    setAdminLoading(false);
   };
 
   const handleRemoveAdmin = async (id) => {
+    setAdminLoading(true);
     const details = JSON.stringify({
       channelId: channelDetails.channelId,
       receipantId: id,
@@ -82,10 +91,12 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
     );
     await response.json();
     setIsRefresh((refresh) => !refresh);
+    setAdminLoading(false);
   };
 
   return (
     <Box style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      {isLoading && <Skeleton animation="wave" />}
       {channelDetails?.channelMembers.map((response) => {
         const isAdmin = channelDetails.channelAdmin.some(
           (filter) => filter._id === response._id
@@ -144,6 +155,7 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
                     ? "Remove yourself from admin"
                     : "Remove from admin"
                   : "Add to admin"}
+                {adminLoading && <CircularProgress />}
               </Button>
               <Button
                 variant="contained"
@@ -156,6 +168,7 @@ const ChannelMembersList = ({ channelDetails, userId, setIsRefresh }) => {
                 onClick={() => handleRemoveMember(response._id)}
               >
                 {yourId ? "Kick out yourself" : "Kick out"}
+                {memberLoading && <CircularProgress />}
               </Button>
             </Box>
           </Box>

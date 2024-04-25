@@ -167,8 +167,8 @@ const PostWidget = ({
       }),
     });
     const responseData = await response.json();
-    if (responseData) {
-      const reversedData = responseData?.reverse();
+    if (Array.isArray(responseData)) {
+      const reversedData = responseData.slice().reverse();
       setAllComments(reversedData);
     }
   }, [token, postId]);

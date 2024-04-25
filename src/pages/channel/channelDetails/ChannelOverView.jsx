@@ -15,7 +15,7 @@ import ChannelEditForm from "./ChannelEditForm";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
+const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh, isLoading }) => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -286,6 +286,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
                     userId={userId}
                     isAdmin={isAdmin}
                     setIsRefresh={setIsRefresh}
+                    isLoading={isLoading}
                   />
                 </Box>
               )}
@@ -295,6 +296,7 @@ const ChannelOverView = ({ channelDetails, userId, isAdmin, setIsRefresh }) => {
                     channelDetails={channelDetails}
                     userId={userId}
                     setIsRefresh={setIsRefresh}
+                    isLoading={isLoading}
                   />
                 </Box>
               )}

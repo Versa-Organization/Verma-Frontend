@@ -9,6 +9,7 @@ const ChannelDetailsIndex = () => {
     const { id } = useParams();
     const [channelDetails, setChannelDetails] = useState(null);
     const [isRefresh, setIsRefresh] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const token = useSelector((state) => state.token);
     const userId = useSelector((state) => state.user._id);
@@ -18,6 +19,7 @@ const ChannelDetailsIndex = () => {
 
     const getChannelDetails = async () => {
         if (id) {
+            setIsLoading(true);
             const response = await fetch(
                 `${process.env.REACT_APP_API_URL}/channel/getChannelById`,
                 {
@@ -32,6 +34,7 @@ const ChannelDetailsIndex = () => {
             );
             const data = await response.json();
             setChannelDetails(data);
+            setIsLoading(false)
         }
     };
 
@@ -67,6 +70,7 @@ const ChannelDetailsIndex = () => {
                         userId={userId}
                         isAdmin={isAdmin}
                         setIsRefresh={setIsRefresh}
+                        isLoading={isLoading}
                     />
                 </Box>
             </Box>
