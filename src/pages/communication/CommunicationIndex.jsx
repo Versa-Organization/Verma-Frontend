@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
 import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -15,6 +15,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 
 const CommunicationIndex = () => {
   const scrollbarsRef = useRef(null);
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const token = useSelector((state) => state.token);
   const loggedInUser = useSelector((state) => state.user);
   const [participants, setParticipants] = React.useState();
@@ -49,7 +50,7 @@ const CommunicationIndex = () => {
           height: "89vh",
         }}
       >
-        <WidgetWrapper style={{ flex: "1 10%", height: "100%" }}>
+        {(isNonMobileScreens || !communication) && <WidgetWrapper style={{ flex: "1 10%", height: "100%" }}>
           {participants?.length > 0 ? (
             <Box
               style={{
@@ -125,8 +126,8 @@ const CommunicationIndex = () => {
               </Typography>
             </Box>
           )}
-        </WidgetWrapper>
-        <WidgetWrapper style={{ flex: "1 50%", height: "100%" }}>
+        </WidgetWrapper>}
+        {(communication || isNonMobileScreens) && <WidgetWrapper style={{ flex: "1 50%", height: "100%" }}>
           {communication ? (
             <Box
               style={{
@@ -214,7 +215,7 @@ const CommunicationIndex = () => {
               </Typography>
             </Box>
           )}
-        </WidgetWrapper>
+        </WidgetWrapper>}
       </Box>
     </Box>
   );

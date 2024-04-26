@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import Navbar from "../../navbar";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 import ChannelList from "./ChannelList";
@@ -7,8 +7,10 @@ import { useSelector } from "react-redux";
 import ChannelContent from "./ChannelContent";
 import { AiFillMessage } from "react-icons/ai";
 
+
 const ChannelContentIndex = () => {
   const [followedChannelList, setFollowedChannelList] = React.useState();
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const token = useSelector((state) => state.token);
   const userId = useSelector((state) => state.user._id);
   const [channel, setChannel] = React.useState(null);
@@ -46,14 +48,14 @@ const ChannelContentIndex = () => {
           height: "89vh",
         }}
       >
-        <WidgetWrapper style={{ flex: "1 10%", height: "100%" }}>
+        {(isNonMobileScreens || !channel) && <WidgetWrapper style={{ flex: "1 10%", height: "100%" }}>
           <ChannelList
             followedChannelList={followedChannelList}
             onClick={(channel) => handleOpenChannel(channel)}
           />
-        </WidgetWrapper>
+        </WidgetWrapper>}
 
-        <WidgetWrapper style={{ flex: "1 50%", height: "100%" }}>
+        {(channel || isNonMobileScreens) && <WidgetWrapper style={{ flex: "1 50%", height: "100%" }}>
           {channel ? (
             <ChannelContent
               channel={channel}
@@ -81,7 +83,7 @@ const ChannelContentIndex = () => {
               </Box>
             </Box>
           )}
-        </WidgetWrapper>
+        </WidgetWrapper>}
       </Box>
     </Box>
   );
