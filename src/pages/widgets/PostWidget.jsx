@@ -503,7 +503,7 @@ const PostWidget = ({
             {isEditComment.status ? (
               <Button
                 variant="contained"
-                style={{ background: "#1e96fc", color: "#ffff" }}
+                style={{ background: "#1e96fc", color: "#ffff", textTransform: 'none' }}
                 onClick={editCommentClick}
               >
                 Update
@@ -511,7 +511,7 @@ const PostWidget = ({
             ) : (
               <Button
                 variant="contained"
-                style={{ background: "#1e96fc", color: "#ffff" }}
+                style={{ background: "#1e96fc", color: "#ffff", textTransform: 'none' }}
                 onClick={sendComment}
               >
                 Comment
@@ -769,7 +769,7 @@ const PostWidget = ({
                             />
                             <Button
                               variant="contained"
-                              style={{ background: "#1e96fc", color: "#ffff" }}
+                              style={{ background: "#1e96fc", color: "#ffff", textTransform: 'none' }}
                               onClick={() => sendCommentReply(comment._id, i)}
                             >
                               Reply
@@ -801,7 +801,7 @@ const PostWidget = ({
                             />
                             <Button
                               variant="contained"
-                              style={{ background: "#1e96fc", color: "#ffff" }}
+                              style={{ background: "#1e96fc", color: "#ffff", textTransform: 'none' }}
                               onClick={editReplyCommentClick}
                             >
                               Reply
