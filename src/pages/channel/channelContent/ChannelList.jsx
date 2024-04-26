@@ -62,10 +62,10 @@ const ChannelList = ({ followedChannelList, onClick }) => {
                                             <Typography variant="h5" style={{ fontWeight: "bold" }}>
                                                 {channel?.channelName}
                                             </Typography>
-                                            <Typography variant="body" style={{ wordWrap: 'nowrap', width: '100%' }}>{displayMessage}</Typography>
+                                            {displayMessage ? <Typography variant="body" style={{ wordWrap: 'nowrap', width: '100%' }}>{displayMessage}</Typography> : <Typography variant="body" style={{ wordWrap: 'nowrap', width: '100%' }}>No content...</Typography>}
                                         </Box>
                                     </Box>
-                                    <Box style={{ display: "flex", gap: "1rem" }}>
+                                    {channel?.channelContent?.timeStamps && <Box style={{ display: "flex", gap: "1rem" }}>
                                         {`${moment(channel?.channelContent?.timeStamps).fromNow()}`}
                                         {channel.channelContent.pendingMessagesLength !== 0 && (
                                             <Badge
@@ -77,7 +77,7 @@ const ChannelList = ({ followedChannelList, onClick }) => {
                                                 <MapsUgcIcon color="action" />
                                             </Badge>
                                         )}
-                                    </Box>
+                                    </Box>}
                                 </Box>
                                 <Divider style={{ marginTop: "1rem" }} />
                             </>

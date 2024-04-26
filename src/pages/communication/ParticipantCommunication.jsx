@@ -26,15 +26,17 @@ const ParticipantCommunication = ({
           <Typography variant="h5" style={{ fontWeight: "bold" }}>
             {receipantName}
           </Typography>
-          <Typography variant="body">
+          {communicationLastDetails?.lastMessage ? <Typography variant="body">
             {communicationLastDetails?.lastMessage}
-          </Typography>
+          </Typography> : <Typography variant="body">
+            No messages...
+          </Typography>}
         </Box>
       </Box>
       <Box>
-        <Typography>
+        {communicationLastDetails?.lastMessageDate && <Typography>
           {moment(communicationLastDetails?.lastMessageDate).fromNow()}
-        </Typography>
+        </Typography>}
       </Box>
     </Box>
   );
